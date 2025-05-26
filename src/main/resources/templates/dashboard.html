@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <title>Панель користувача</title>
+</head>
+<body>
+<h2>Вітаємо!</h2>
+
+<p>Ви успішно увійшли в систему.</p>
+
+<p>Ваш JWT токен:</p>
+<textarea cols="80" rows="5" readonly th:text="${token}"></textarea>
+
+<p><a th:href="@{/auth/login}">Вийти</a></p>
+</body>
+</html>
