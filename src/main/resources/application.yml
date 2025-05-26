@@ -8,9 +8,9 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
   datasource:
-    url: jdbc:postgresql://localhost:5432/Test
-    username: admin
-    password: admin
+    url: jdbc:postgresql://dpg-d0q2jkadbo4c73efiai0-a:5432/java_ed
+    username: java_ed_user
+    password: K6xVbKFTM01QZOt1auAsbgY7IuaSi4Ru
     driver-class-name: org.postgresql.Driver
   sql:
     init:
