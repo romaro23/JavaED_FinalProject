@@ -1,5 +1,7 @@
 package org.example.javaed_hotel.security;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import org.example.javaed_hotel.model.AuthRequest;
 import org.example.javaed_hotel.model.User;
 import org.example.javaed_hotel.repository.UserRepository;
@@ -36,7 +38,18 @@ public class AuthController {
         model.addAttribute("authRequest", new AuthRequest());
         return "register";
     }
-
+   @GetMapping("/dashboard")
+    public String showDashboard(HttpServletRequest request, Model model) {
+       if (request.getCookies() != null) {
+           for (Cookie cookie : request.getCookies()) {
+               if ("token".equals(cookie.getName())) {
+                   model.addAttribute("token", cookie.getValue());
+                   break;
+               }
+           }
+       }
+        return "dashboard";
+   }
     @PostMapping("/register")
     public String register(@ModelAttribute AuthRequest request, Model model) {
         if(userRepository.existsByUsername(request.getUsername())) {
@@ -50,7 +63,6 @@ public class AuthController {
         return "redirect:/auth/login";
     }
 
-    // Відображення сторінки логіну
     @GetMapping("/login")
     public String showLoginForm() {
         return "login";

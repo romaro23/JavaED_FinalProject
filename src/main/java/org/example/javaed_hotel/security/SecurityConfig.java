@@ -24,17 +24,18 @@ public class SecurityConfig {
         this.userDetailsService = myUserDetailsService;
     }
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http, CustomOAuth2SuccessHandler customOAuth2SuccessHandler) throws Exception {
         http.csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/auth/register", "/auth/login").permitAll()
+                .requestMatchers("/auth/register", "/auth/login", "/oauth2/**").permitAll()
                 .requestMatchers("/api/**").authenticated()
                 .anyRequest().authenticated()
                 .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
-
-        http.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
+        http.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                .oauth2Login(oauth2 -> oauth2
+                        .loginPage("/auth/login")
+                        .successHandler(customOAuth2SuccessHandler));
         return http.build();
     }
 
